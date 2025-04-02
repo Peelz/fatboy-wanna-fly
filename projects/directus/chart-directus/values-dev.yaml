@@ -11,17 +11,17 @@ extraEnvVars:
     value: "5432"
   # TODO: changeme
   - name: DB_DATABASE
-    value: "workshop_{changeme}"
+    value: "workshop_bank"
   - name: DB_SEARCH_PATear
     value: "array:directus,asset"
   # TODO: changeme
   - name: DB_USER
-    value: workshop_{changeme}
+    value: workshop_bank
   # TODO: changeme
   - name: DB_PASSWORD
     valueFrom:
       secretKeyRef:
-        name: workshop-{changeme}-psql-user-directus
+        name: workshop-bank-psql-user-directus
         key: DB_DIRECTUS_USER_PASS
   - name: KEY
     valueFrom:

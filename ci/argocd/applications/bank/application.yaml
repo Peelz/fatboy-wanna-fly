@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # TODO: changeme
+  name: workshop-directus-bank-eco
+  namespace: argocd
+spec:
+  destination:
+    # TODO: changeme
+    namespace: workshop-bank
+    server: https://kubernetes.default.svc
+  project: database
+  source:
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-dev.yaml
+    path: projects/directus/chart
+    repoURL: https://github.com/Peelz/fatboy-wanna-fly.git
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # TODO: changeme
+  name: workshop-directus-bank
+  namespace: argocd
+spec:
+  destination:
+    # TODO: changeme
+    namespace: workshop-bank
+    server: https://kubernetes.default.svc
+  project: database
+  source:
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-dev.yaml
+    path: projects/directus/chart-directus
+    repoURL: https://github.com/Peelz/fatboy-wanna-fly.git
+
