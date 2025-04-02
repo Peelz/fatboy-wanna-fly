@@ -6,5 +6,7 @@ if [ "$ret_val" -ne 0 ]; then
 fi
 
 ./sql/create-users.sql.sh
+./sql/create-db.sh
 ./sql/grant.sql.sh
-run-pgsql-script.sh 'mordee' $DB_ADMIN_USER $DB_ADMIN_USER_PASS "$(pwd)/sql/create-schema.sql"
+
+run-pgsql-script.sh $DB_NAME $DB_DIRECTUS_USER $DB_ADMIN_USER_PASS "$(pwd)/sql/create-schema.sql"
