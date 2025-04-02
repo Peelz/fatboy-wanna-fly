@@ -22,9 +22,7 @@ spec:
           imagePullPolicy: IfNotPresent
           envFrom:
             - secretRef:
-                name: {{ .Values.database.postgres.users.admin.kubeSecretRef }}
-            - secretRef:
-                name: {{ .Values.database.postgres.users.rw.kubeSecretRef }}
+                name: {{ .Values.database.postgres.users.directus.kubeSecretRef }}
             - secretRef:
                 name: {{ .Values.database.postgres.users.postgres.kubeSecretRef }}
           env:
