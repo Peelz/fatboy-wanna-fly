@@ -41,7 +41,7 @@ def _create_uuid(secret_id: str):
         secret_data=f"{random_uuid}"
     )
 
-def create(chart_values: dict):
+def create(_, chart_values: dict):
     directus_key = chart_values["directus"]["secretRefs"]["key"]
     directus_secret = chart_values["directus"]["secretRefs"]["secret"]
     directus_admin = chart_values["directus"]["secretRefs"]["admin"]

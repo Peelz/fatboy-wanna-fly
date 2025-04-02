@@ -13,7 +13,7 @@ def create(pid: str, values: dict):
 
     # create key, or get exist from resource name
     key = gcp.serviceaccount.Key(
-        "resource-key-name",
+        f"sa-json-key-{sa_name}",
         service_account_id=sa.name,
         public_key_type="TYPE_X509_PEM_FILE"
     )

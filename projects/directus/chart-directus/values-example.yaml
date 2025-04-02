@@ -22,7 +22,7 @@ extraEnvVars:
     valueFrom:
       secretKeyRef:
         name: workshop-bank-psql-user-directus
-        key: DB_DIRECTUS_USER_PASSWORD
+        key: DB_DIRECTUS_USER_PASS
   - name: KEY
     valueFrom:
       secretKeyRef:
