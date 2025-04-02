@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   # TODO: changeme
-  name: workshop-directus-bank-{changeme}
+  name: workshop-directus-{changeme}-eco
   namespace: argocd
 spec:
   destination:
