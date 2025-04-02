@@ -2,20 +2,20 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   # TODO: changeme
-  name: {changeme}
+  name: workshop-directus-{changeme}-ecosys
   namespace: argocd
 spec:
   destination:
-    namespace: biz-dory
+    namespace: {changeme}
     server: https://kubernetes.default.svc
-  project: biz-dory
+  project: database
   source:
     helm:
       valueFiles:
         - values.yaml
         - values-dev.yaml
     path: projects/directus/chart
-    repoURL: git@bitbucket.org:truedmp/tdh-biz-dory-ops.git
+    repoURL: {git repo url}
   syncPolicy:
     automated:
       prune: true
