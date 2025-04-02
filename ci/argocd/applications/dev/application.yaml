@@ -6,7 +6,8 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    namespace: git@github.com:Peelz/fatboy-wanna-fly.git
+    # TODO: changeme
+    namespace: workshop-{changeme}
     server: https://kubernetes.default.svc
   project: database
   source:
@@ -30,7 +31,8 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    namespace: git@github.com:Peelz/fatboy-wanna-fly.git
+    # TODO: changeme
+    namespace: workshop-{changeme}
     server: https://kubernetes.default.svc
   project: database
   source:
@@ -40,5 +42,3 @@ spec:
         - values-dev.yaml
     path: projects/directus/chart-directus
     repoURL: git@github.com:Peelz/fatboy-wanna-fly.git
- 
-
