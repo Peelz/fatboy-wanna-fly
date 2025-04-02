@@ -1,0 +1,71 @@
+image:
+  tag: 10.12
+
+extraEnvVars:
+  - name: DB_CLIENT
+    value: "pg"
+  - name: DB_HOST
+    value: "postgresql-viper.database.svc.cluster.local"
+  - name: DB_PORT
+    value: "5432"
+  - name: DB_DATABASE
+    value: "mordee"
+  - name: DB_SEARCH_PATH
+    value: "array:directus,asset,main"
+  - name: DB_USER
+    value: directus
+  - name: DB_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: directus-secrets-env
+        key: DB_PASSWORD
+  - name: KEY
+    valueFrom:
+      secretKeyRef:
+        name: directus-secrets-env
+        key: KEY
+  - name: SECRET
+    valueFrom:
+      secretKeyRef:
+        name: directus-secrets-env
+        key: SECRET
+  - name: ADMIN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: directus-secrets-env
+        key: ADMIN_PASSWORD
+  - name: ADMIN_EMAIL
+    value: kavinphop.t@chiiwii.com
+  - name: STORAGE_LOCATIONS
+    value: "gcs"
+  - name: STORAGE_GCS_DRIVER
+    value: "gcs"
+  - name: STORAGE_GCS_ROOT
+    value: "directus"
+  - name: STORAGE_GCS_HEALTHCHECK_THRESHOLD
+    value: "750"
+  - name: STORAGE_GCS_KEY_FILENAME
+    value: "/etc/sa/tdh-de-default"
+  - name: STORAGE_GCS_BUCKET
+    value: "tdg-dh-truehealth-core-prod-hudi-lakehouse"
+  - name: FILES_MAX_UPLOAD_SIZE
+    value: "50mb"
+
+redis:
+  enabled: false
+
+nodeSelector:
+  cloud.google.com/gke-spot: "true"
+
+tolerations:
+  - key: continuity
+    operator: Equal
+    value: preemptible
+    effect: NoExecute
+
+iap:
+  domainName:
+    - directus.milkyway.tdh.alt-shift.space
+    - directus.aries.tdh.alt-shift.space
+
+saSecretRef: tdh-de-default

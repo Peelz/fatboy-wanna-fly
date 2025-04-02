@@ -37,3 +37,15 @@ argocd:
   syncPolicy: {}
   valueFiles:
     - values.yaml
+
+directus:
+  secretRefs:
+    
+    # dbPassword: db-viper-directus-secret
+    # key: directus-viper-mordee-key
+    # secret: directus-viper-mordee-secret
+    # admin: directus-viper-admin-password
+    # sa:
+    #   name: tdh-de-default
+    #   remoteRef: tdh-de-default-cred
+    #

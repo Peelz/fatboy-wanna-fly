@@ -4,34 +4,9 @@
 
 replicaCount: 1
 
-admin:
-  email:
-  password:
-
-public:
-  url:
-# If you are using the ingress config in the helm chart, you
-# don't need to set this, as the public url fallbacks on that
-# value, if that's the public you would like to use, you don't
-# need to set this.
-# Directus can be installed without this, but generates a
-# warning at startup if it's missing
-# See: https://docs.directus.io/self-hosted/config-options.html#general
-
-# Set admin email and password, if left empty, Directus will
-# create an user with email admin@example.co and a random password.
-# Password would be printed out in the init container.
-
-key: 4d596b1af3e1ae23d54110da1a377c66
-# An unique identifier, could be created like:
-# openssl rand -hex 16
-secret: 7cf5038d95dfba34178e0c120d77d75e
-# An unique identifier, could be created like:
-# openssl rand -hex 16
-
 image:
-  repository: directus/directus
-  pullPolicy: Always
+  repository: directus/directus 
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
@@ -48,20 +23,12 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-# podAnnotations: {}
-podAnnotations:
-  seccomp.security.alpha.kubernetes.io/pod: "runtime/default"
-# seccomp.security.alpha.kubernetes.io/pod is added by default here for security reasons
-# https://docs.bridgecrew.io/docs/bc_k8s_30
-# To add more annotations, do like:
-# my.foo/bar: "foo"
+podAnnotations: {}
 
-podSecurityContext:
-  {}
+podSecurityContext: {}
   # fsGroup: 2000
 
-securityContext:
-  {}
+securityContext: {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -73,97 +40,31 @@ service:
   type: ClusterIP
   port: 80
 
-
-# As we only needed one persistence volume in earlier
-# versions of directus, the default disk is the upload volume.
-persistence:
-  enabled: false
-  # existingClaim: ""
-  # storageClass: "-"
-  ## Persistent Volume Claim annotations
-  ##
-  annotations: {}
-  ## Persistent Volume Access Mode
-  ##
-  accessModes: ReadWriteOnce
-  ## Persistent Volume size
-  ##
-  size: 8Gi
-
-persistenceExtensions:
-  enabled: false
-  # storageClass: "-"
-  ## Persistent Volume Claim annotations
-  ##
-  annotations: {}
-  ## Persistent Volume Access Mode
-  ##
-  accessModes: ReadWriteOnce
-  ## Persistent Volume size
-  ##
-  size: 8Gi
-
-persistenceTemplates:
-  enabled: false
-  # storageClass: "-"
-  ## Persistent Volume Claim annotations
-  ##
-  annotations: {}
-  ## Persistent Volume Access Mode
-  ##
-  accessModes: ReadWriteOnce
-  ## Persistent Volume size
-  ##
-  size: 8Gi
-
-
 ingress:
   enabled: false
-  ingressClassName: nginx
-  annotations:
-    {}
+  annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: chart-example.local
       paths:
-        - path: /
-          pathType: Prefix
+      - path: /
+        backend:
+          serviceName: chart-example.local
+          servicePort: 80
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
 
-cache:
-  enabled: true
-  ttl: "5m"
-  autoPurge: true
-  store: "redis"
-# Set cache values, disable cache with setting enabled: false
-
-generateEnvVars:
-  mariadb: true
-  redis: true
-# Generates default env variables for mariadb and redis, so you don't
-# need to set this as extraEnvVars. Set to false to disable this
-# behavior.
-
-extraEnvVars:
-  {}
+extraEnvVars: {}
   # An array to add extra environment variables
   # E.g.
   # extraEnvVars:
   #  - name: STORAGE_LOCATIONS
   #    value: "s3"
 
-log:
-  level: "info"
-  style: "pretty"
-# Log level could be set to: fatal, error, warn, info, debug, trace or silent.
-# For log style, there is two options, pretty or raw.
-
-resources:
-  {}
+resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -175,118 +76,18 @@ resources:
   #   cpu: 100m
   #   memory: 128Mi
 
-initContainers: []
-
-# initContainers:
-#   - image: busybox
-#     name: busy
-#     command:
-#       - "/bin/sh"
-#       - "-c"
-#       - "echo 'message from init container'"
-
-schema:
-  configMap:
-  # An name of a existing configmap to use for schema snapshots.
-  snapshot:
-    init: false
-    # take s snapshot of schema in init container.
-    importOnStart: false
-    # import schema.configMap on pod start.
-
-sidecars:
-  []
-  # You can add any sidecar to the directus pod, like:
-  # sidecars:
-  #   - image: busybox
-  #     name: busy
-  #     command:
-  #       - "/bin/sh"
-  #       - "-c"
-  #       - "echo 'message from sidecar' > /inthis.txt"
-
-extraSecrets:
-  create: false
-  data: {}
-# secrets need to base64 encoded when added.
-#  data:
-#    name: Zm9vCg==
-#    bar: YmFyCg==
-
-extraConfigMap:
-  create: false
-  data: {}
-  # You can create an extra config map, and attach data to it. This will be named
-  # {{ include "directus.fullname" . }}-extra-config-map
-  # data:
-  #   my.file: |
-  #     foo: bar
-
-extraVolumes: []
-# extraVolumes:
-# - name: mySecretVolume
-#   secret:
-#     secretName: directus-extra-secrets
-# - name: my.file
-#   configMap:
-#     name: directus-extra-config-map
-#     items:
-#     - key: "my.file"
-#       path: "/tmp/my.file"
-extraVolumeMounts: []
-# extraVolumeMounts:
-# - name: mySecretVolume
-#   mountPath: /foo/secrets/mySecretVolume/
-# - name: my.file
-#   mountPath: /tmp/my.file
-#   subPath: my.file
-
-extraServices: {}
-#  - name: foo
-## Service port type
-#    type: ClusterIP
-## Service protocol
-#    protocol: TCP
-## The container target port
-#    containerPort: 12001
-## The service port
-#    port: 12001
-#    selector:
-#      app: directus
-## The node port (only relevant for type LoadBalancer or NodePort)
-#    nodePort:
-## The cluster ip address (only relevant for type LoadBalancer or NodePort)
-#    clusterIP:
-## The loadbalancer ip address (only relevant for type LoadBalancer)
-#    loadBalancerIP:
-
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 100
+  maxReplicas: 1
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
-
-startupProbe:
-  enabled: true
-
-livenessProbe:
-  enabled: true
-
-readinessProbe:
-  enabled: true
 
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
-
-busybox:
-  image:
-    registry: docker.io
-    repository: busybox
-    tag: 1.36
 
 mariadb:
   enabled: true
@@ -306,7 +107,7 @@ mariadb:
   image:
     registry: docker.io
     repository: bitnami/mariadb
-    tag: 10.9.7-debian-11-r54
+    tag: 10.5.10-debian-10-r18
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
     ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -324,37 +125,37 @@ mariadb:
     ##
     debug: false
 
-  ## String to partially override mariadb.fullname template (will maintain the release name)
-  ##
-  # nameOverride:
+## String to partially override mariadb.fullname template (will maintain the release name)
+##
+# nameOverride:
 
-  ## String to fully override mariadb.fullname template
-  ##
-  # fullnameOverride:
+## String to fully override mariadb.fullname template
+##
+# fullnameOverride:
 
-  ## Cluster domain
-  ##
+## Cluster domain
+##
   clusterDomain: cluster.local
 
-  ## Common annotations to add to all MariaDB resources (sub-charts are not considered). Evaluated as a template
-  ##
+## Common annotations to add to all MariaDB resources (sub-charts are not considered). Evaluated as a template
+##
   commonAnnotations: {}
 
-  ## Common labels to add to all MariaDB resources (sub-charts are not considered). Evaluated as a template
-  ##
+## Common labels to add to all MariaDB resources (sub-charts are not considered). Evaluated as a template
+##
   commonLabels: {}
 
-  ## Use an alternate scheduler, e.g. "stork".
-  ## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
-  ##
-  # schedulerName:
+## Use an alternate scheduler, e.g. "stork".
+## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
+##
+# schedulerName:
 
-  ## MariaDB architecture. Allowed values: standalone or replication
-  ##
+## MariaDB architecture. Allowed values: standalone or replication
+##
   architecture: standalone
 
-  ## MariaDB Authentication parameters
-  ##
+## MariaDB Authentication parameters
+##
   auth:
     ## MariaDB root password
     ## ref: https://github.com/bitnami/bitnami-docker-mariadb#setting-the-root-password-on-first-run
@@ -364,8 +165,8 @@ mariadb:
     ## ref: https://github.com/bitnami/bitnami-docker-mariadb/blob/master/README.md#creating-a-database-on-first-run
     ## ref: https://github.com/bitnami/bitnami-docker-mariadb/blob/master/README.md#creating-a-database-user-on-first-run
     ##
-    database: directus
-    username: directus
+    database: my_database
+    username: ""
     password: ""
     ## MariaDB replication user and password
     ## ref: https://github.com/bitnami/bitnami-docker-mariadb#setting-up-a-replication-cluster
@@ -391,22 +192,22 @@ mariadb:
     ##
     customPasswordFiles: {}
 
-  ## initdb scripts
-  ## Specify dictionary of scripts to be run at first boot
-  ## Example:
-  ## initdbScripts:
-  ##   my_init_script.sh: |
-  ##      #!/bin/bash
-  ##      echo "Do something."
-  ##
+## initdb scripts
+## Specify dictionary of scripts to be run at first boot
+## Example:
+## initdbScripts:
+##   my_init_script.sh: |
+##      #!/bin/bash
+##      echo "Do something."
+##
   initdbScripts: {}
 
-  ## Existing ConfigMap with custom init scripts
-  ##
-  # initdbScriptsConfigMap:
+## Existing ConfigMap with custom init scripts
+##
+# initdbScriptsConfigMap:
 
-  ## Mariadb Primary parameters
-  ##
+## Mariadb Primary parameters
+##
   primary:
     ## Command and args for running the container (set to default if not set). Use array form
     ##
@@ -456,8 +257,7 @@ mariadb:
     ## updateStrategy for Mariadb Primary statefulset
     ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
     ##
-    updateStrategy:
-      type: RollingUpdate
+    updateStrategy: RollingUpdate
 
     ## Partition update strategy for Mariadb Primary statefulset
     ## https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#partitions
@@ -700,8 +500,8 @@ mariadb:
       ##
       # maxUnavailable: 1
 
-  ## Mariadb Secondary parameters
-  ##
+## Mariadb Secondary parameters
+##
   secondary:
     ## Number of Mariadb Secondary replicas to deploy
     ##
@@ -753,8 +553,7 @@ mariadb:
     ## updateStrategy for Mariadb Secondary statefulset
     ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
     ##
-    updateStrategy:
-      type: RollingUpdate
+    updateStrategy: RollingUpdate
 
     ## Partition update strategy for Mariadb Secondary statefulset
     ## https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#partitions
@@ -993,9 +792,9 @@ mariadb:
       ##
       # maxUnavailable: 1
 
-  ## MariaDB pods ServiceAccount
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
-  ##
+## MariaDB pods ServiceAccount
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+##
   serviceAccount:
     ## Specifies whether a ServiceAccount should be created
     ##
@@ -1008,23 +807,23 @@ mariadb:
     ##
     annotations: {}
 
-  ## Role Based Access
-  ## ref: https://kubernetes.io/docs/admin/authorization/rbac/
-  ##
+## Role Based Access
+## ref: https://kubernetes.io/docs/admin/authorization/rbac/
+##
   rbac:
     ## Specifies whether RBAC rules should be created
     ##
     create: false
 
-  ## Init containers parameters:
-  ## volumePermissions: Change the owner and group of the persistent volume mountpoint to runAsUser:fsGroup values from the securityContext section.
-  ##
+## Init containers parameters:
+## volumePermissions: Change the owner and group of the persistent volume mountpoint to runAsUser:fsGroup values from the securityContext section.
+##
   volumePermissions:
     enabled: false
     image:
       registry: docker.io
       repository: bitnami/bitnami-shell
-      tag: 11-debian-11-r136
+      tag: 10-debian-10-r91
       pullPolicy: Always
       ## Optionally specify an array of imagePullSecrets.
       ## Secrets must be manually created in the namespace.
@@ -1034,14 +833,14 @@ mariadb:
       #   - myRegistryKeySecretName
     resources: {}
 
-  ## Mysqld Prometheus exporter parameters
-  ##
+## Mysqld Prometheus exporter parameters
+##
   metrics:
     enabled: false
     image:
       registry: docker.io
       repository: bitnami/mysqld-exporter
-      tag: 0.15.0-debian-11-r8
+      tag: 0.12.1-debian-10-r448
       pullPolicy: IfNotPresent
       ## Optionally specify an array of imagePullSecrets.
       ## Secrets must be manually created in the namespace.
@@ -1161,7 +960,7 @@ mariadb:
 
   ## Array with extra yaml to deploy with the chart. Evaluated as a template
   ##
-  extraDeploy: []
+  extraDeploy: [] 
 
 redis:
   enabled: true
@@ -1224,7 +1023,7 @@ redis:
   image:
     registry: docker.io
     repository: bitnami/redis
-    tag: 6.2.13-debian-11-r20
+    tag: 6.2.3-debian-10-r22
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
     ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -1490,7 +1289,7 @@ redis:
     ##       - name: portname
     ##         containerPort: 1234
     ##
-    sidecars: []
+    sidecars: {}
     ## @param master.initContainers Add additional init containers to the Redis(TM) master pod(s)
     ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
     ## e.g:
@@ -1500,7 +1299,7 @@ redis:
     ##    imagePullPolicy: Always
     ##    command: ['sh', '-c', 'echo "hello world"']
     ##
-    initContainers: []
+    initContainers: {}
     ## Persistence parameters
     ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
     ##
@@ -1587,7 +1386,7 @@ redis:
   replica:
     ## @param replica.replicaCount Number of Redis(TM) replicas to deploy
     ##
-    replicaCount: 0
+    replicaCount: 3
     ## @param replica.configuration Configuration for Redis(TM) replicas nodes
     ## ref: https://redis.io/topics/config
     ##
@@ -1790,7 +1589,7 @@ redis:
     ##       - name: portname
     ##         containerPort: 1234
     ##
-    sidecars: []
+    sidecars: {}
     ## @param replica.initContainers Add additional init containers to the Redis(TM) replicas pod(s)
     ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
     ## e.g:
@@ -1800,7 +1599,7 @@ redis:
     ##    imagePullPolicy: Always
     ##    command: ['sh', '-c', 'echo "hello world"']
     ##
-    initContainers: []
+    initContainers: {}
     ## Persistence Parameters
     ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
     ##
@@ -1878,7 +1677,7 @@ redis:
     ##
     terminationGracePeriodSeconds: 30
 
-  ## @section Redis(TM) Sentinel configuration parameters
+## @section Redis(TM) Sentinel configuration parameters
 
   sentinel:
     ## @param sentinel.enabled Use Redis(TM) Sentinel on Redis(TM) pods.
@@ -2455,7 +2254,7 @@ redis:
     image:
       registry: docker.io
       repository: bitnami/bitnami-shell
-      tag: 11-debian-11-r136
+      tag: 10-debian-10-r92
       pullPolicy: Always
       ## Optionally specify an array of imagePullSecrets.
       ## Secrets must be manually created in the namespace.
@@ -2501,7 +2300,7 @@ redis:
     image:
       registry: docker.io
       repository: bitnami/bitnami-shell
-      tag: 11-debian-11-r136
+      tag: 10-debian-10-r92
       pullPolicy: Always
       ## Optionally specify an array of imagePullSecrets.
       ## Secrets must be manually created in the namespace.
@@ -2525,3 +2324,8 @@ redis:
     resources:
       limits: {}
       requests: {}
+
+database:
+  remoteRef: ""
+  secretName: directus-postgres-password
+
