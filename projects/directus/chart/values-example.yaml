@@ -13,9 +13,9 @@ database:
         kubeSecretRef: "db-psql-user-postgres"
       directus:
         version: 1
-        userName: "workshop_{changeme}"
-        gcpSecretRef: "workshop-{namespace}-psql-user-db-directus"
-        kubeSecretRef: "workshop-{namespace}-dory-psql-user-directus"
+        userName: "workshop_bank"
+        gcpSecretRef: "workshop-bank-psql-user-db-directus"
+        kubeSecretRef: "workshop-bank-psql-user-directus"
 argocd:
   valueFiles:
     - values.yaml
