@@ -29,7 +29,7 @@ spec:
                 name: {{ .Values.database.postgres.users.postgres.kubeSecretRef }}
           env:
             - name: PROJECT_NAME
-              value: dory
+              value: directus 
             - name: DB_NAME
               value: {{ .Values.database.postgres.dbName }}
             - name: DB_HOST
