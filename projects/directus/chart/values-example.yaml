@@ -1,0 +1,22 @@
+gcpProjectId: tdg-dh-truehealth-core-nonprod
+clusterLocation: asia-southeast1
+clusterName: tdh-dev-octopus
+
+database:
+  postgres:
+    host: postgresql-viper.database.svc.cluster.local
+    # TODO: change me 
+    dbName: ""
+    users:
+      postgres:
+        gcpSecretRef: "pg-viper-admin-password"
+        kubeSecretRef: "db-psql-user-postgres"
+      directus:
+        version: 1
+        userName: "workshop_{changeme}"
+        gcpSecretRef: "workshop-{namespace}-psql-user-db-directus"
+        kubeSecretRef: "workshop-{namespace}-dory-psql-user-directus"
+argocd:
+  valueFiles:
+    - values.yaml
+    - values-dev.yaml

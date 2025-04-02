@@ -1,0 +1,6 @@
+pulumi>=3.159.0,<4.0.0
+pulumi-gcp>=7.0.0,<8.0.0
+pulumi_random>=4.9.0
+pulumi-tls>=4.9.0
+--extra-index-url https://asia-southeast1-python.pkg.dev/tdg-dh-governance-prod/dugong/simple/
+tdh-infra>=0.0.24

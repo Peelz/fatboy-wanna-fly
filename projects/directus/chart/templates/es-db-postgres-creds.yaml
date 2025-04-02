@@ -1,0 +1,58 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: {{ .Values.database.postgres.users.rw.kubeSecretRef }}
+  namespace: {{ .Values.namespace }}
+spec:
+  refreshInterval: 8760h
+  secretStoreRef:
+    kind: SecretStore
+    name: {{ .Release.Namespace }}-secret-store
+  target:
+    name: {{ .Values.database.postgres.users.rw.kubeSecretRef }}
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: {{ .Values.database.postgres.users.rw.gcpSecretRef }}
+      rewrite:
+        - regexp:
+            source: (.*)
+            target: POSTGRES_$1
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: {{ .Values.database.postgres.users.admin.kubeSecretRef }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  refreshInterval: 8760h
+  secretStoreRef:
+    kind: SecretStore
+    name: {{ .Release.Namespace }}-secret-store
+  target:
+    name: {{ .Values.database.postgres.users.admin.kubeSecretRef }}
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: {{ .Values.database.postgres.users.admin.gcpSecretRef }}
+
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: {{ .Values.database.postgres.users.postgres.gcpSecretRef }}
+spec:
+  refreshInterval: 8760h
+  secretStoreRef:
+    kind: SecretStore
+    name: {{ .Release.Namespace }}-secret-store
+  target:
+    name: {{ .Values.database.postgres.users.postgres.kubeSecretRef }}
+    creationPolicy: Owner
+    template:
+      data:
+        POSTGRES_USER_PASS: {{`"{{.admin_password}}"`}}
+  data:
+    - secretKey: admin_password
+      remoteRef:
+        key: {{ .Values.database.postgres.users.postgres.gcpSecretRef }}

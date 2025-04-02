@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: 01-init-db
+spec:
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: disabled
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+      volumes:
+        - name: ssh-key
+          secret:
+            secretName: {{ .Values.dbJob.secretRef.kubeSecret }}
+            defaultMode: 0444
+      containers:
+        - name: pgdb-script-runner
+          image: {{ .Values.dbJob.dbScriptImage }}
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: {{ .Values.database.postgres.users.admin.kubeSecretRef }}
+            - secretRef:
+                name: {{ .Values.database.postgres.users.rw.kubeSecretRef }}
+            - secretRef:
+                name: {{ .Values.database.postgres.users.postgres.kubeSecretRef }}
+          env:
+            - name: PROJECT_NAME
+              value: dory
+            - name: DB_NAME
+              value: {{ .Values.database.postgres.dbName }}
+            - name: DB_HOST
+              value: {{ .Values.database.postgres.host }}
+            - name: GIT_REPO
+              value: {{ .Values.dbJob.repo }}
+            - name: GIT_BRANCH
+              value: {{ .Values.dbJob.branch }}
+          command: [ "/home/pgdb-script/bin/entrypoint.sh"]
+          workingDir: "/home/pgdb-script"
+          volumeMounts:
+            - mountPath: /home/pgdb-script/ssh-key
+              name: ssh-key
+      restartPolicy: Never
+  backoffLimit: 0

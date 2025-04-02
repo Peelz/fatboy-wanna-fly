@@ -1,0 +1,12 @@
+apiVersion: v2
+appVersion: v0.1.0
+description: Dory Ecosystem Chart
+keywords:
+  - dory
+kubeVersion: ">= 1.19.0-0"
+maintainers:
+  - email: anucha.mai@truedigital.com
+    name: Anucha Mai.
+name: biz-dory-ecosystem
+version: 0.1.0
+

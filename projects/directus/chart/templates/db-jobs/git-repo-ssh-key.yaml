@@ -1,0 +1,24 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: {{ .Values.dbJob.secretRef.kubeSecret }}
+spec:
+  refreshInterval: 8760h
+  secretStoreRef:
+    kind: SecretStore
+    name: {{ .Release.Namespace }}-secret-store
+  target:
+    name: {{ .Values.dbJob.secretRef.kubeSecret }}
+    creationPolicy: Owner
+    template:
+      data:
+        id_rsa: {{`"{{ .id_rsa }}"`}}
+        id_rsa.pub: {{`"{{ .id_rsa_pub }}"`}}
+
+  data:
+  - secretKey: id_rsa
+    remoteRef:
+      key: {{ .Values.dbJob.secretRef.id_rsa }}
+  - secretKey: id_rsa_pub
+    remoteRef:
+      key: {{ .Values.dbJob.secretRef.id_rsa_pub }}

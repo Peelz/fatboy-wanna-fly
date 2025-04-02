@@ -1,0 +1,39 @@
+gcpProjectId: ""
+clusterLocation: asia-southeast1
+clusterName: ""
+
+projectName: ...
+
+serviceAccount:
+  secretStore: ...
+
+namespace: ...
+
+database:
+  postgres:
+    host: ""
+    dbName: ""
+    users:
+      postgres:
+        gcpSecretRef: ""
+        kubeSecretRef: ""
+      directus:
+        version: 1
+        userName: ""
+        gcpSecretRef: ""
+        kubeSecretRef: ""
+
+dbJob:
+  dbScriptImage: asia-southeast1-docker.pkg.dev/tdg-dh-truehealth-core-nonprod/infra-starfish-docker/pgdb-script-runner:0.2.0
+  # TODO: changeme
+  repo: "..."
+  branch: "main"
+  secretRef:
+    kubeSecret: git-repo-ssh-key
+    id_rsa: mordee-argocd-git-repo-access-ssh
+    id_rsa_pub: mordee-argocd-git-repo-access-ssh-pub
+
+argocd:
+  syncPolicy: {}
+  valueFiles:
+    - values.yaml

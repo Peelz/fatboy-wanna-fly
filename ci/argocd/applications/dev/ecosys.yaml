@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # TODO: changeme
+  name: {changeme}
+  namespace: argocd
+spec:
+  destination:
+    namespace: biz-dory
+    server: https://kubernetes.default.svc
+  project: biz-dory
+  source:
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-dev.yaml
+    path: projects/directus/chart
+    repoURL: git@bitbucket.org:truedmp/tdh-biz-dory-ops.git
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
+ 
