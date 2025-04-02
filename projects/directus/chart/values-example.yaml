@@ -14,17 +14,21 @@ database:
   postgres:
     host: postgresql-viper.database.svc.cluster.local
     # TODO: change me 
-    dbName: "workshop_bank"
+    dbName: "workshop_{changeme}"
     users:
       postgres:
         gcpSecretRef: "pg-viper-admin-password"
         kubeSecretRef: "db-psql-user-postgres"
       directus:
         version: 1
-        userName: "workshop_bank"
-        gcpSecretRef: "workshop-bank-psql-user-db-directus"
-        kubeSecretRef: "workshop-bank-psql-user-directus"
+        userName: "workshop_{changeme}"
+        gcpSecretRef: "workshop-{changeme}-psql-user-db-directus"
+        kubeSecretRef: "workshop-{changeme}-psql-user-directus"
 argocd:
   valueFiles:
     - values.yaml
     - values-dev.yaml
+
+dbJob:
+  # TODO: changeme
+  repo: https://github.com/Peelz/fatboy-wanna-fly.git

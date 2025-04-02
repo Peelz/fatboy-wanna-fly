@@ -35,3 +35,7 @@ directus:
     key: 'workshop-bank-directus-mordee-key'
     secret: 'workshop-bank-directus-mordee-secret'
     admin: 'workshop-bank-directus-admin-password'
+
+dbJob:
+  # TODO: changeme
+  repo: https://github.com/Peelz/fatboy-wanna-fly.git
