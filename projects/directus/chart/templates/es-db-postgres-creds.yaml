@@ -1,28 +1,7 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: {{ .Values.database.postgres.users.rw.kubeSecretRef }}
-  namespace: {{ .Values.namespace }}
-spec:
-  refreshInterval: 8760h
-  secretStoreRef:
-    kind: SecretStore
-    name: {{ .Release.Namespace }}-secret-store
-  target:
-    name: {{ .Values.database.postgres.users.rw.kubeSecretRef }}
-    creationPolicy: Owner
-  dataFrom:
-    - extract:
-        key: {{ .Values.database.postgres.users.rw.gcpSecretRef }}
-      rewrite:
-        - regexp:
-            source: (.*)
-            target: POSTGRES_$1
----
-apiVersion: external-secrets.io/v1beta1
-kind: ExternalSecret
-metadata:
-  name: {{ .Values.database.postgres.users.admin.kubeSecretRef }}
+  name: {{ .Values.database.postgres.users.directus.kubeSecretRef }}
   namespace: {{ .Release.Namespace }}
 spec:
   refreshInterval: 8760h
@@ -30,11 +9,11 @@ spec:
     kind: SecretStore
     name: {{ .Release.Namespace }}-secret-store
   target:
-    name: {{ .Values.database.postgres.users.admin.kubeSecretRef }}
+    name: {{ .Values.database.postgres.users.directus.kubeSecretRef }}
     creationPolicy: Owner
   dataFrom:
     - extract:
-        key: {{ .Values.database.postgres.users.admin.gcpSecretRef }}
+        key: {{ .Values.database.postgres.users.directus.gcpSecretRef }}
 
 ---
 apiVersion: external-secrets.io/v1beta1
