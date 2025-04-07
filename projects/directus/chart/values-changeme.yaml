@@ -31,4 +31,4 @@ argocd:
 
 dbJob:
   # TODO: changeme
-  repo: https://github.com/Peelz/fatboy-wanna-fly.git
+  repo: {gitrepo}
