@@ -9,7 +9,7 @@ spec:
     # TODO: changeme
     namespace: workshop-{changeme}
     server: https://kubernetes.default.svc
-  project: database
+  project: workshop-{changeme}
   source:
     helm:
       valueFiles:
@@ -34,7 +34,7 @@ spec:
     # TODO: changeme
     namespace: workshop-{changeme}
     server: https://kubernetes.default.svc
-  project: database
+  project: workshop-{changeme}
   source:
     helm:
       valueFiles:
