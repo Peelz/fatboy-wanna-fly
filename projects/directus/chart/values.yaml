@@ -27,7 +27,7 @@ database:
 dbJob:
   dbScriptImage: asia-southeast1-docker.pkg.dev/tdg-dh-truehealth-core-nonprod/infra-starfish-docker/pgdb-script-runner:0.2.0
   # TODO: changeme
-  repo: "..."
+  repo: ""
   branch: "main"
   secretRef:
     kubeSecret: git-repo-ssh-key

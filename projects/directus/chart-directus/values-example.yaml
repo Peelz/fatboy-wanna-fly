@@ -40,7 +40,7 @@ extraEnvVars:
         key: ADMIN_PASSWORD
   - name: ADMIN_EMAIL
   # TODO: changeme
-    value: ''
+    value: 'sa@mordee.com'
 
 redis:
   enabled: false
@@ -57,6 +57,5 @@ tolerations:
 iap:
   domainName:
     # TODO: changeme
-    - '{changeme}.moon.tdh.bluewhale.space'
+    - '{changeme}-directus.pluto.tdh.bluewhale.space'
 
-saSecretRef: tdh-de-default
