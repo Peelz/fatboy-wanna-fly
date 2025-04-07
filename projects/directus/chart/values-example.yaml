@@ -4,30 +4,37 @@ clusterName: tdh-dev-octopus
 
 serviceAccount:
   # TODO: changeme
-  secretStore: workshop-eso-{changeme}
+  secretStore: workshop-eso-bank
   # TODO: changeme
-  directus: workshop-{changeme}
+  directus: workshop-bank
 
-namespace: workshop-{changeme}
+namespace: workshop-bank
 
 database:
   postgres:
     host: postgresql-viper.database.svc.cluster.local
     # TODO: change me 
-    dbName: "workshop_{changeme}"
+    dbName: "workshop_bank"
     users:
       postgres:
         gcpSecretRef: "pg-viper-admin-password"
         kubeSecretRef: "db-psql-user-postgres"
       directus:
         version: 1
-        userName: "workshop_{changeme}"
-        gcpSecretRef: "workshop-{changeme}-psql-user-db-directus"
-        kubeSecretRef: "workshop-{changeme}-psql-user-directus"
+        userName: "workshop_bank"
+        gcpSecretRef: "workshop-bank-psql-user-db-directus"
+        kubeSecretRef: "workshop-bank-psql-user-directus"
+
 argocd:
   valueFiles:
     - values.yaml
     - values-dev.yaml
+
+directus:
+  secretRefs:
+    key: 'workshop-bank-directus-mordee-key'
+    secret: 'workshop-bank-directus-mordee-secret'
+    admin: 'workshop-bank-directus-admin-password'
 
 dbJob:
   # TODO: changeme

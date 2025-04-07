@@ -16,7 +16,7 @@ spec:
         - values.yaml
         - values-dev.yaml
     path: projects/directus/chart
-    repoURL: {changeme}
+    repoURL: {gitrepo}
   syncPolicy:
     automated:
       prune: true
@@ -41,4 +41,4 @@ spec:
         - values.yaml
         - values-dev.yaml
     path: projects/directus/chart-directus
-    repoURL: {changeme}
+    repoURL: {gitrepo}
