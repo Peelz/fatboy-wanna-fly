@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: database
+  name: workshop_{changeme}
   namespace: argocd
 spec:
   clusterResourceWhitelist:
