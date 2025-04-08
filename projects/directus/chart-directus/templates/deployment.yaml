@@ -56,13 +56,6 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 {{/*      Note: volumeMounts and volumes are not default by public chart, but add on later    */}}
-          volumeMounts:
-            - mountPath: /etc/sa
-              name: sa-key
-      volumes:
-        - name: sa-key
-          secret:
-            secretName: {{ .Values.saSecretRef }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
