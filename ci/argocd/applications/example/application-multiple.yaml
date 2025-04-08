@@ -9,7 +9,7 @@ spec:
     # TODO: changeme
     namespace: workshop-bank
     server: https://kubernetes.default.svc
-  project: database
+  project: workshop-bank
   sources:
     - helm:
         valueFiles:
