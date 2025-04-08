@@ -11,17 +11,17 @@ extraEnvVars:
     value: "5432"
   # TODO: changeme
   - name: DB_DATABASE
-    value: "workshop_foo"
+    value: "workshop_bank"
   - name: DB_SEARCH_PATear
     value: "array:directus,asset"
   # TODO: changeme
   - name: DB_USER
-    value: workshop_foo
+    value: workshop_bank
   # TODO: changeme
   - name: DB_PASSWORD
     valueFrom:
       secretKeyRef:
-        name: workshop-foo-psql-user-directus
+        name: workshop-bank-psql-user-directus
         key: DB_DIRECTUS_USER_PASS
   - name: KEY
     valueFrom:
@@ -57,5 +57,5 @@ tolerations:
 iap:
   domainName:
     # TODO: changeme
-    - 'foo-directus.pluto.tdh.bluewhale.space'
+    - 'bank-directus.pluto.tdh.bluewhale.space'
 
