@@ -21,6 +21,6 @@ spec:
           single:
             upstream:
               name: {{ .Release.Namespace }}-{{ include "directus.fullname" . }}-80 
-              namespace: {{ .Release.Namespace }}
+              namespace: api-gateway
         options:
           timeout: 60s
