@@ -1,0 +1,26 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: {{ include "directus.fullname" . }}
+  labels:
+    gateway.solo.io: default
+spec:
+  sslConfig:
+    secretRef:
+      name: ocean-gate
+      namespace: api-gateway
+  virtualHost:
+  {{- with .Values.virtualService.domainName }}
+    domains:
+    {{ toYaml . | indent 6 }}
+  {{- end }}
+    routes:
+      - matchers:
+          - prefix: /
+        routeAction:
+          single:
+            upstream:
+              name: {{ .Release.Namespace }}-{{ include "directus.fullname" . }}-80 
+              namespace: {{ .Release.Namespace }}
+        options:
+          timeout: 60s
