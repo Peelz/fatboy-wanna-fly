@@ -54,7 +54,7 @@ tolerations:
     value: preemptible
     effect: NoExecute
 
-iap:
+virtualService:
   domainName:
     # TODO: changeme
     - '{changeme}-directus.pluto.tdh.bluewhale.space'
