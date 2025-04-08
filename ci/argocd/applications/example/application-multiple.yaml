@@ -24,7 +24,7 @@ spec:
       path: projects/directus/chart-directus
       repoURL: https://github.com/Peelz/fatboy-wanna-fly.git
   syncPolicy:
-    automated:
-      prune: true
+    # automated:
+    #   prune: true
     syncOptions:
       - CreateNamespace=true
