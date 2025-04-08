@@ -14,13 +14,13 @@ spec:
     - helm:
         valueFiles:
           - values.yaml
-          - values-dev.yaml
+          - values-example.yaml
       path: projects/directus/chart
       repoURL: https://github.com/Peelz/fatboy-wanna-fly.git
     - helm:
         valueFiles:
           - values.yaml
-          - values-dev.yaml
+          - values-example.yaml
       path: projects/directus/chart-directus
       repoURL: https://github.com/Peelz/fatboy-wanna-fly.git
   syncPolicy:
