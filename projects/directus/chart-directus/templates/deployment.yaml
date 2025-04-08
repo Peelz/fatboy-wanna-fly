@@ -36,7 +36,7 @@ spec:
           env:
             {{- if .Values.virtualService.domainName }}
             - name: PUBLIC_URL
-              value: https://{{(index .Values.iap.domainName 0) }}
+              value: https://{{(index .Values.virtualService.domainName 0) }}
             {{- end }}
             {{- if .Values.extraEnvVars }}
             {{- tpl (toYaml .Values.extraEnvVars) $ | nindent 12 }}
