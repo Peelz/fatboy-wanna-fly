@@ -34,7 +34,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            {{- if .Values.iap.domainName }}
+            {{- if .Values.virtualService.domainName }}
             - name: PUBLIC_URL
               value: https://{{(index .Values.iap.domainName 0) }}
             {{- end }}
