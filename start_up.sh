@@ -7,6 +7,10 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.
 sudo apt-get update
 sudo apt-get install helm
 
+sudo apt install python3.11-venv
+
 pulumi login gs://tdg-dh-truehealth-core-nonprod-pulumi-state
 
-
+if [ ! -d venv ]; then
+  python -m venv venv
+fi
