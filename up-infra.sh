@@ -12,5 +12,5 @@ ress=(
 )
 
 for res in "${ress[@]}"; do
-  pulumi up -r -s $1-directus-dev-${res} 
+  pulumi up -r -s workshop-directus-dev-${res} 
 done

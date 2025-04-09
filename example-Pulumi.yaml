@@ -1,7 +1,0 @@
-name: tdh-workshop-deployment-bank
-runtime:
-  name: python
-  options:
-    virtualenv: venv
-description: workshop deployment 
-
