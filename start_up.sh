@@ -12,5 +12,7 @@ sudo apt install python3.11-venv
 pulumi login gs://tdg-dh-truehealth-core-nonprod-pulumi-state
 
 if [ ! -d venv ]; then
-  python -m venv venv
+  python3 -m venv venv
 fi
+
+# source venv/bin/active
