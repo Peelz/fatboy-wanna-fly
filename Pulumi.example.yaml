@@ -1,0 +1,7 @@
+name: tdh-workshop-{changeme}
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: workshop deployment 
+
